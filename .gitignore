@@ -1,0 +1,22 @@
+# build output
+dist/
+.astro/
+
+# deps
+node_modules/
+
+# snapshot source (reference only — not part of the build)
+aescoladeexatas.com_aula_organico/
+.playwright-mcp/
+*.jpeg
+dom-content.json
+
+# os / editor
+.DS_Store
+.vscode/
+.idea/
+
+# logs
+npm-debug.log*
+aescoladeexatas.com_up_1_ee_v2/
+aescoladeexatas.com_dw_1_ee_v3/

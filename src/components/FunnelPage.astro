@@ -1,0 +1,37 @@
+---
+/**
+ * Página de funil (upsell/downsell) — one-click Hotmart.
+ * Cabeçalho + VSL nativa + funil da Hotmart que aparece no pitch (.esconder).
+ */
+import Funnel from '../layouts/Funnel.astro';
+import VslNative from './VslNative.astro';
+import HotmartFunnel from './HotmartFunnel.astro';
+
+export interface Props {
+  title: string;
+  heading: string;
+  sub: string;
+  playerId: string; // id PURO, sem `vid-`
+  delaySeconds: number;
+}
+const { title, heading, sub, playerId, delaySeconds } = Astro.props;
+const ACCOUNT = '1f136267-6fae-424a-a2af-6f55173425e6';
+---
+
+<Funnel title={title} poster={null}>
+  <main class="upsell">
+    <div class="container center upsell__inner">
+      <h1 class="upsell__title">{heading}</h1>
+      <p class="upsell__sub">{sub}</p>
+      <VslNative account={ACCOUNT} playerId={playerId} delaySeconds={delaySeconds} />
+      <!-- aparece no pitch: funil one-click da Hotmart (aceitar/recusar) -->
+      <div class="esconder upsell__offer">
+        <HotmartFunnel />
+      </div>
+    </div>
+  </main>
+</Funnel>
+
+<style is:global>
+  body { background: #fff; }
+</style>

@@ -1,0 +1,21 @@
+---
+/** Card de preço (torre) — usado abaixo da VSL e na seção #valor. */
+export interface Props {
+  checkout: string;
+  price?: string;
+  installment?: string;
+}
+const { checkout, price = 'R$ 297', installment = '12x de R$ 30' } = Astro.props;
+---
+
+<div class="price-card is-best">
+  <img class="price-card__logo" src="/assets/logo-exatas.webp" alt="A Escola de Exatas" width="168" height="134" loading="lazy" />
+  <div class="price-card__plan">01 ano de acesso</div>
+  <span class="price-card__badge">Melhor opção</span>
+  <p class="price-card__desc">Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de
+    <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>1 ano de acesso</b>, por apenas:</p>
+  <div class="price-card__price">{price}</div>
+  <div class="price-card__inst">à vista ou até <b>{installment}</b></div>
+  <a class="btn btn--pulse" href={checkout} rel="nofollow">QUERO 01 ANO DE ACESSO</a>
+  <img class="price-card__secure" src="/assets/compra-segura.svg" alt="Compra 100% segura" width="280" height="50" loading="lazy" />
+</div>

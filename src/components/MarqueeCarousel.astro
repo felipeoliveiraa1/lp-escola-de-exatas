@@ -1,0 +1,107 @@
+---
+/**
+ * Carrossel multi-card com AUTO-SCROLL horizontal contínuo (fiel ao original).
+ * Vários cards visíveis, movimento suave em loop perfeito (cards duplicados via JS),
+ * usando transform translateX (GPU, sem travar), pausa no hover/toque/setas,
+ * respeita prefers-reduced-motion e só roda quando visível.
+ */
+export interface Props {
+  images: string[];
+  alt: string;
+  /** false = capas sem moldura branca (full-bleed) */
+  framed?: boolean;
+  /** largura do card em px */
+  width?: number;
+}
+const { images, alt, framed = true, width = 264 } = Astro.props;
+---
+
+<div class={`mcar${framed ? '' : ' mcar--bare'}`} data-marquee style={`--mcard-w:${width}px`}>
+  <button class="mcar__nav mcar__nav--prev" type="button" aria-label="Anterior">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+  </button>
+  <div class="mcar__viewport">
+    <div class="mcar__track">
+      {images.map((src, i) => (
+        <div class="mcar__card">
+          <img src={src} alt={`${alt} ${i + 1}`} width="768" height="1024" loading="lazy" decoding="async" />
+        </div>
+      ))}
+    </div>
+  </div>
+  <button class="mcar__nav mcar__nav--next" type="button" aria-label="Próximo">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+  </button>
+</div>
+
+<script>
+  function initMarquees() {
+    document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((m) => {
+      if ((m as any).__init) return;
+      (m as any).__init = true;
+      const track = m.querySelector<HTMLElement>('.mcar__track')!;
+      const prev = m.querySelector<HTMLElement>('.mcar__nav--prev')!;
+      const next = m.querySelector<HTMLElement>('.mcar__nav--next')!;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // duplica os cards p/ loop sem emenda
+      const n = track.children.length;
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < n; i++) {
+        const c = track.children[i].cloneNode(true) as HTMLElement;
+        c.setAttribute('aria-hidden', 'true');
+        frag.appendChild(c);
+      }
+      track.appendChild(frag);
+
+      let resetAt = 0, step = 280;
+      const measure = () => {
+        resetAt = track.children[n].getBoundingClientRect().left - track.children[0].getBoundingClientRect().left;
+        const first = track.children[0] as HTMLElement;
+        if (first) step = first.getBoundingClientRect().width + 18;
+      };
+      measure();
+      window.addEventListener('resize', measure);
+      window.addEventListener('load', measure);
+
+      let userPaused = false, offscreen = false, last = 0, pos = 0, rt: any = null;
+      const SPEED = 48; // px/s — suave
+      const activeNow = () => !userPaused && !offscreen && resetAt > 0;
+      const frame = (ts: number) => {
+        if (resetAt <= 0) measure();
+        if (activeNow()) {
+          if (!last) last = ts;
+          pos += (SPEED * (ts - last)) / 1000;
+          last = ts;
+          if (pos >= resetAt) pos -= resetAt;
+        } else {
+          last = ts;
+        }
+        track.style.transform = 'translateX(' + -pos + 'px)';
+        requestAnimationFrame(frame);
+      };
+      if (!reduce) requestAnimationFrame(frame);
+
+      const pause = () => { userPaused = true; };
+      const resume = () => { userPaused = false; };
+      const pauseThenResume = (ms: number) => { pause(); clearTimeout(rt); rt = setTimeout(resume, ms); };
+      const nudge = (dir: number) => {
+        pos += dir * step;
+        if (resetAt > 0) pos = ((pos % resetAt) + resetAt) % resetAt;
+        if (reduce) track.style.transform = 'translateX(' + -pos + 'px)';
+      };
+
+      m.addEventListener('mouseenter', pause);
+      m.addEventListener('mouseleave', resume);
+      m.addEventListener('touchstart', () => pauseThenResume(3000), { passive: true });
+      if (prev) prev.addEventListener('click', () => { pauseThenResume(2500); nudge(-1); });
+      if (next) next.addEventListener('click', () => { pauseThenResume(2500); nudge(1); });
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((es) => { offscreen = !es[0].isIntersecting; }, { threshold: 0 }).observe(m);
+      }
+    });
+  }
+  initMarquees();
+  document.addEventListener('astro:after-swap', initMarquees);
+</script>

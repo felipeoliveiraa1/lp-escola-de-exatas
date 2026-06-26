@@ -1,0 +1,93 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  /** caminho do poster LCP para preload com fetchpriority alto */
+  poster?: string;
+}
+const {
+  title = 'Assinatura - A Escola de Exatas - Concurso Público',
+  description = 'Domine as matérias Exatas para Concursos com o método exclusivo do Prof. Guilherme Neves e transforme Exatas no seu diferencial competitivo.',
+  poster = '/assets/poster-vsl.webp',
+} = Astro.props;
+
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {poster && <meta property="og:image" content={poster} />}
+
+    <!-- Fontes self-host: preload das usadas acima da dobra (latin) -->
+    <link rel="preload" href="/fonts/worksans-QGYsz_wNahGAdqQ43Rh_fKDp.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- LCP: poster da VSL (só na LP principal; upsell/downsell usam player nativo) -->
+    {poster && <link rel="preload" as="image" href={poster} fetchpriority="high" />}
+
+    <!-- VSL (vturb / converteai): conexões adiantadas, SEM preload pesado -->
+    <link rel="preconnect" href="https://scripts.converteai.net" />
+    <link rel="preconnect" href="https://cdn.converteai.net" />
+    <link rel="preconnect" href="https://images.converteai.net" />
+    <link rel="dns-prefetch" href="https://m3u8.vturb.net" />
+    <link rel="dns-prefetch" href="https://license.vturb.com" />
+
+    <!-- Meta Pixel Code -->
+    <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '276768947070475');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=276768947070475&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <!-- utmify: persistência de UTMs nos checkouts -->
+    <script
+      is:inline
+      async
+      defer
+      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+      data-utmify-prevent-subids
+    ></script>
+    <!-- VK Digital — sales pixel + page view -->
+    <link rel="dns-prefetch" href="https://cf.vkdigital.com.br" />
+    <script is:inline>
+      !(function (w, d, c, u) {
+        (w.vkPixelSales = w.vkPixelSales || { _q: [] })._q.push(['init', c]);
+        (w.vkPageViewPixel = w.vkPageViewPixel || { _q: [] })._q.push(['init', c, 'page_view']);
+        ['https://cf.vkdigital.com.br/sales_pixel.js?v=56', 'https://cf.vkdigital.com.br/event_pageview.js'].forEach(function (src, i) {
+          var s = d.createElement('script');
+          s.src = src;
+          s.async = 1;
+          if (i === 0) {
+            s.setAttribute('data-no-xcod-url', '');
+          }
+          d.head.appendChild(s);
+        });
+      })(window, document, 'ZbN78876rU5hc00SodGF');
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

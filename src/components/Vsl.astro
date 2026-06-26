@@ -1,0 +1,96 @@
+---
+/**
+ * Facade da VSL (vturb / converteai).
+ * Carrega só o poster no load (CLS 0, LCP leve, nota alta). No 1º toque injeta o
+ * <vturb-smartplayer> + player.js — e já destrava o som (unmute+play) no mesmo
+ * clique, sem o 2º toque do "Clique para ouvir".
+ * ⚠️ id do elemento usa prefixo `vid-`; a URL do player.js usa o id PURO.
+ */
+export interface Props {
+  account: string;
+  playerId?: string; // id PURO, sem `vid-` (player único)
+  abTestId?: string; // id do teste A/B (sorteia variantes)
+  poster?: string;
+}
+const { account, playerId, abTestId, poster = '/assets/poster-vsl.webp' } = Astro.props;
+// teste A/B usa id `ab-<id>` e a URL .../ab-test/<id>/player.js (sem /v4/)
+const elId = abTestId ? `ab-${abTestId}` : `vid-${playerId}`;
+const playerJs = abTestId
+  ? `https://scripts.converteai.net/${account}/ab-test/${abTestId}/player.js`
+  : `https://scripts.converteai.net/${account}/players/${playerId}/v4/player.js`;
+---
+
+<div class="vsl-wrap">
+  <div
+    class="vsl-slot"
+    id="vsl-slot"
+    role="button"
+    tabindex="0"
+    aria-label="Assistir o vídeo"
+    data-elid={elId}
+    data-player={playerJs}
+  >
+    <img class="vsl-slot__bg" src="/assets/vsl-bg.webp" alt="" aria-hidden="true" width="540" height="960" decoding="async" />
+    <img
+      class="vsl-slot__poster"
+      src={poster}
+      alt="Clique e assista à aula — A Escola de Exatas"
+      width="540"
+      height="960"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var slot = document.getElementById('vsl-slot');
+    if (!slot) return;
+    var loaded = false;
+    function play() {
+      if (loaded) return;
+      loaded = true;
+      var elId = slot.getAttribute('data-elid');
+      var src = slot.getAttribute('data-player');
+      // injeta o player no lugar do poster
+      var player = document.createElement('vturb-smartplayer');
+      player.id = elId;
+      player.style.display = 'block';
+      player.style.margin = '0 auto';
+      player.style.width = '100%';
+      player.style.height = '100%';
+      slot.innerHTML = '';
+      slot.appendChild(player);
+      slot.classList.add('is-playing');
+      var wrap = slot.closest('.vsl-wrap'); // para a pulsação ao tocar play
+      if (wrap) wrap.style.animation = 'none';
+      // destrava o som já no 1º clique: o clique dá user-activation, então quando
+      // o player ficar pronto a gente manda unmute+play (sem precisar do 2º toque).
+      var soundOn = false;
+      function enableSound(e) {
+        if (soundOn) return;
+        var p = (e && e.detail && e.detail.player) || document.getElementById(elId) || player;
+        if (!p) return;
+        soundOn = true;
+        try { if (typeof p.unmute === 'function') p.unmute(); } catch (err) {}
+        try { if (typeof p.setVolume === 'function') p.setVolume(1); } catch (err) {}
+        try { if (typeof p.play === 'function') p.play(); } catch (err) {}
+      }
+      document.addEventListener('player:ready', enableSound); // A/B dispara no document
+      player.addEventListener('player:ready', enableSound);   // player único, no elemento
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      document.head.appendChild(s);
+      // gate da VSL (se existir na página) começa a contar no toque
+      if (window.__startVslTimer) window.__startVslTimer();
+      // sinaliza intenção de play pro pixel, se quiser (opcional)
+      if (window.fbq) try { window.fbq('trackCustom', 'VSLPlay'); } catch (e) {}
+    }
+    slot.addEventListener('click', play);
+    slot.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); }
+    });
+  })();
+</script>

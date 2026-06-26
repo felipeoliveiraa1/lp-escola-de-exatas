@@ -1,0 +1,48 @@
+---
+/**
+ * VSL com player NATIVO do vturb (auto-load) — usado no upsell/downsell.
+ * + gate: revela os elementos .esconder no pitch (delaySeconds) via displayHiddenElements.
+ */
+export interface Props {
+  account: string;
+  playerId: string; // id PURO, sem `vid-`
+  delaySeconds: number; // tempo do pitch (revela .esconder)
+}
+const { account, playerId, delaySeconds } = Astro.props;
+const elId = `vid-${playerId}`;
+const playerJs = `https://scripts.converteai.net/${account}/players/${playerId}/v4/player.js`;
+---
+
+<vturb-smartplayer id={elId} class="vsl-native"></vturb-smartplayer>
+
+<script is:inline define:vars={{ playerJs, delaySeconds, elId }}>
+  // carrega o player nativo do vturb
+  (function () {
+    var s = document.createElement('script');
+    s.src = playerJs;
+    s.async = true;
+    document.head.appendChild(s);
+  })();
+  // gate: revela .esconder no pitch (ou na hora com ?preview)
+  (function () {
+    try {
+      if (/[?&]preview/.test(location.search)) {
+        var els = document.querySelectorAll('.esconder');
+        for (var i = 0; i < els.length; i++) els[i].classList.remove('esconder');
+        return;
+      }
+    } catch (e) {}
+    var done = false;
+    function reveal(e) {
+      if (done) return;
+      var player = (e && e.detail && e.detail.player) || document.getElementById(elId) || document.querySelector('vturb-smartplayer');
+      if (!player || typeof player.displayHiddenElements !== 'function') return;
+      done = true;
+      player.displayHiddenElements(delaySeconds, ['.esconder'], { persist: true });
+    }
+    // escuta no document (A/B) e no próprio player (player único) — cobre os dois casos
+    document.addEventListener('player:ready', reveal);
+    var el = document.getElementById(elId);
+    if (el) el.addEventListener('player:ready', reveal);
+  })();
+</script>
