@@ -8,9 +8,10 @@ import LandingPage from '../components/LandingPage.astro';
   installment="12x de R$ 51"
   abTestId="699f2b2a44f8b87400f66f8b"
   pitchMap={{
-    '699e799310f8465bfaf96eb5': 1455, // Lead 1 — 24:15
+    // A/B tem só Lead 5/6/7 (Lead 1 foi removida do teste em 2026-07)
     '699e7bd085a22216bd691b18': 1585, // Lead 5 — 26:25
-    '699e7aad10f8465bfaf97056': 1420, // Lead 6 — 23:40
+    '699e7aad10f8465bfaf97056': 1565, // Lead 6 — 26:05
     '699e85c585a22216bd692908': 1565, // Lead 7 — 26:05
   }}
+  pitchFallback={1565}
 />
