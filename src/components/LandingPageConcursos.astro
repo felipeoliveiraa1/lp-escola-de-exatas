@@ -1,15 +1,14 @@
 ---
 /**
- * LP de CONCURSOS — mesma estrutura da principal (LandingPage), MAS:
- *  - hero ESTÁTICO (sem VSL) → tudo visível, sem gate/.esconder/reveal.
- *  - 2 planos no #valor: Vitalício R$497 e 1 ano R$397 (produtos Hotmart próprios).
- * Usada por /concursos (tráfego direto) e /concursos-bio (bio do Instagram) — mesmas páginas.
+ * LP de CONCURSOS — réplica fiel do original (aescoladeexatas.com/concursos):
+ * hero estático branco, 2 cartas de venda em fundo branco, garantia em faixa laranja,
+ * bio no fim, títulos peso 400, 2 planos (Vitalício R$497 / 1 ano R$397). Sem VSL/gate.
+ * Usada por /concursos (tráfego direto) e /concursos-bio (bio do Instagram).
  */
 import Funnel from '../layouts/Funnel.astro';
 import MarqueeCarousel from './MarqueeCarousel.astro';
 import PriceCard from './PriceCard.astro';
 
-// ----- Conquistas (topo do bio) -----
 const conquistas = [
   '4 entre os 10 primeiros do TCU',
   '4 entre os 10 primeiros da SEFA-PA',
@@ -17,7 +16,6 @@ const conquistas = [
   '8 entre os 20 primeiros (incluindo o 1º lugar nacional) na Polícia Federal',
 ];
 
-// ----- Lista de aprovados [rank, cargo, nome] -----
 const aprovados: [string, string, string][] = [
   ['1° LUGAR', 'AGENTE DA PF', 'Ramon Ferreira'],
   ['1° LUGAR', 'ESCRIVÃO DA PF', 'Gabriel Nogueira'],
@@ -65,14 +63,11 @@ const aprovados: [string, string, string][] = [
   ['10° LUGAR', 'AUDITOR DE PORTO ALEGRE', 'Vinícius Silva'],
 ];
 
-// ----- Carrosséis (imagens já convertidas em webp) -----
 const aprovPrints = Array.from({ length: 23 }, (_, i) => `/assets/aprov-${String(i + 1).padStart(2, '0')}.webp`);
 const resultPrints = Array.from({ length: 24 }, (_, i) => `/assets/result-${String(i + 1).padStart(2, '0')}.webp`);
 const modPrints = Array.from({ length: 9 }, (_, i) => `/assets/mod-${String(i + 1).padStart(2, '0')}.webp`);
-// ordem fiel ao original: Alfabetização, Raciocínio Lógico, Estatística, Transformando
 const bonus = ['/assets/bonus-01.webp', '/assets/bonus-03.webp', '/assets/bonus-02.webp', '/assets/bonus-04.webp'];
 
-// ----- "Esse curso é para você que…" -----
 const quem = [
   ['/assets/quem-1.webp', 'Sente que Exatas são seu ponto fraco e tem medo de travar na hora da prova.'],
   ['/assets/quem-2.webp', 'Quer dominar Matemática, Raciocínio Lógico, Estatística, Matemática Financeira e até Física — matérias decisivas nos principais concursos do país.'],
@@ -82,33 +77,6 @@ const quem = [
   ['/assets/quem-6.webp', 'Quer acelerar sua aprovação com um método exclusivo que leva qualquer aluno do zero ao avançado em tempo recorde.'],
 ];
 
-// ----- Carta de vendas -----
-const carta = [
-  'Olá, tudo bem?',
-  'Se você está se preparando para concursos, você chegou ao lugar certo e na hora certa.',
-  'Eu sou o Prof. Guilherme Neves, especialista em matérias Exatas para Concursos e hoje estou aqui para falar como você, a partir de hoje, poderá usar as matérias Exatas como o seu diferencial na briga pela aprovação.',
-  'Imagine só: conquistar a sua aprovação no concurso dos seus sonhos, seja para a área fiscal, área de controle, área policial, área bancária ou qualquer outra área de concursos que você resolva enfrentar?',
-  'Estabilidade, segurança, um futuro brilhante – esses são os sonhos de milhares de brasileiros.',
-  'Muitos sonham com isso e eu sei que você também tem esse sonho. Mas talvez, assim como muitos, você esteja se perguntando: ‘Como vou passar no concurso se eu não domino as matérias exatas, como Matemática, Raciocínio Lógico, Estatística, Matemática Financeira e até Física?’',
-  'Olha, se você sente dificuldade com esse tipo de matéria, a culpa não é sua. Talvez você simplesmente não tenha tido a oportunidade de estudar com um professor que vai realmente partir do zero com você te explicando tudo de maneira detalhada, passo a passo.',
-  'Por sinal, esse é um dos grandes problemas desses cursinhos que vendem pacotões com todas as matérias. Eles não conseguem atender as necessidades de todos os tipos de alunos, principalmente os que estão começando do zero.',
-  'E é por essa razão que muitos alunos que já possuem suas assinaturas nos cursinhos tradicionais vêm aprender as Exatas aqui comigo, para que as Exatas finalmente deixem de ser um problema e passem a ser a solução, o diferencial frente à concorrência, aumentando muito as chances de aprovação.',
-  'E como funciona aqui? Qual a razão que faz os nossos alunos aprenderem Exatas de verdade e usarem isso como diferencial nas provas?',
-  'É que eu criei um método exclusivo de ensino de Exatas.',
-  'Seguindo o passo a passo desse método, qualquer pessoa consegue ir do zero ao avançado nas Exatas para Concursos.',
-  'Esse método já foi validado por milhares de alunos que aprenderam Exatas comigo.',
-  'Todos esses alunos conseguiram aprender porque seguiram o nosso método.',
-  'E você também vai aprender. Basta seguir o exato passo a passo que eu vou te passar.',
-  'E foi com base então nesse método que eu criei A Escola de Exatas.',
-  'Aqui na Escola nós cobrimos tudo de Exatas para os principais concursos do Brasil: Matemática do zero (desde a tabuada), Estatística, Matemática Financeira, Raciocínio Lógico e até Física, como no caso da PRF.',
-  'Montamos trilhas específicas para cada um desses concursos, tanto para fase pré quanto para a fase pós-edital.',
-  'A Teoria é completíssima, com aulas em versões mais profundas para quem está estudando pela primeira vez e também com aulas em versões enxutas para quem precisa revisar, além de mais de 10.000 questões resolvidas no detalhe.',
-  'Tudo com foco nos editais para você não perder tempo e saber exatamente o que fazer.',
-  'As matérias Exatas, a partir de hoje, passarão a ser então as suas aliadas na luta pela aprovação.',
-  'Vamos começar então?',
-];
-
-// ----- Passos -----
 const passos = [
   ['/assets/step-1.webp', 'Você acessa a plataforma'],
   ['/assets/step-2.webp', 'Escolhe sua trilha (pré ou pós-edital)'],
@@ -117,7 +85,6 @@ const passos = [
   ['/assets/step-5.webp', 'Vai para a prova com confiança e Exatas como diferencial'],
 ];
 
-// ----- Value stack -----
 const stack: [string, string][] = [
   ['Trilhas pré e pós-edital para Área Fiscal, Controle, Legislativa, Policial, Bancária e Tribunais', 'R$ 397,00'],
   ['Curso Completo de Matemática com Teoria e Milhares de Exercícios', 'R$ 397,00'],
@@ -131,7 +98,6 @@ const stack: [string, string][] = [
   ['Suporte para dúvidas na plataforma', 'R$ 397,00'],
 ];
 
-// ----- Comparativo -----
 const bons = [
   'Teoria que começa realmente do zero e vai até o avançado',
   'Módulos organizados na melhor sequência didática para o aprendizado e foco total nos editais',
@@ -147,10 +113,9 @@ const ruins = [
   'Material incompleto e desorganizado',
 ];
 
-// ----- FAQ (item de acesso ajustado p/ os 2 planos) -----
 const faq: [string, string][] = [
   ['Como funciona o acesso ao curso?', 'Assim que finalizar o pagamento, o acesso chegará de maneira imediata no seu e-mail.'],
-  ['Por quanto tempo terei acesso ao conteúdo?', 'Depende do plano escolhido: no plano de 1 ano, você tem acesso por 12 meses a partir da matrícula; no plano vitalício, o acesso é para sempre.'],
+  ['Por quanto tempo terei acesso ao conteúdo?', 'Depende do plano escolhido: no plano de 1 ano, você tem acesso por 12 meses a contar da data do pagamento; no plano vitalício, o acesso é para sempre.'],
   ['O curso é ao vivo ou gravado?', 'As aulas já estão gravadas e você pode assistir quantas vezes quiser durante o seu período de acesso.'],
   ['Posso assistir às aulas no celular, tablet ou computador?', 'Sim, você pode assistir de qualquer um desses dispositivos.'],
   ['Preciso ter algum conhecimento prévio para acompanhar?', 'Não, partimos juntos, do zero, e vamos até o avançado.'],
@@ -160,10 +125,174 @@ const faq: [string, string][] = [
   ['As aulas seguem o conteúdo programático dos principais concursos?', 'Sim. Nós já temos trilhas de estudos de Exatas para os principais concursos do Brasil. Além disso, também montamos trilhas de Exatas para qualquer outro edital que você precisar.'],
   ['O curso aborda teoria e questões?', 'Teoria completíssima do zero ao avançado e milhares de questões resolvidas.'],
 ];
+
+// ---- Carta 1: checklist de dores ----
+const painLetter: [string, string | string[]][] = [
+  ['p', `<b>Marque quantas dessas frases você já disse</b> (elas podem ser a chave para você poder gritar 'passei' para os quatro cantos):`],
+  ['check', [
+    `"Eu estudo Tributário há meses, sei tudo de Contabilidade… mas quando chega em Estatística, eu TRAVO."`,
+    `"Já gastei em assinaturas completas dos grandes cursinhos, assisti milhares de aulas… e continuo errando as mesmas questões de Matemática Financeira."`,
+    `"Na hora da prova, leio o enunciado 3 vezes e ainda não entendo se é desconto simples, composto, por dentro ou por fora e perco 8 minutos numa questão que meus concorrentes vão acertar. É triste."`,
+    `"Eu SEI a fórmula. Eu DECOREI a fórmula. Mas o Cebraspe esconde a conta matemática em 4 linhas de português rebuscado e eu não sei nem por onde começar."`,
+    `"Meu sonho é SEFAZ. Já tentei a SEFAZ de vários estados… e SEMPRE perco por 4 ou 5 questões de Exatas. Sempre."`,
+    `"Tenho 38 anos, sou formado em Direito, e estou há 16 anos sem tocar em Matemática. Quando vejo 'Distribuição Normal' ou 'Teste de Hipóteses', meu cérebro desliga."`,
+    `"Comprei mentoria, flashcards, resumos em PDF… mas na hora da prova, erro tudo de Estatística. Agora é esperar mais 3 ou 4 anos por um novo edital do concurso que eu quero."`,
+    `"Tenho medo de começar a estudar Exatas porque sei que vou demorar anos para aprender. E o edital vai sair AGORA."`,
+    `"Trabalho 8 horas por dia, tenho filhos… Eu já desisti antes de tentar."`,
+  ]],
+  ['p', `Se você marcou 3 ou mais…`],
+  ['p', `Você não tem um "problema de inteligência".`],
+  ['p', `Você não tem um "problema de foco".`],
+  ['p', `Seu problema é falta de <b>MÉTODO</b> para aprender as matérias de Exatas como <b>Matemática, Raciocínio Lógico e Estatística,</b> que são as matérias decisivas nos concursos da <b>Área Fiscal, Área de Controle, Área Legislativa, Área Policial, Área Bancária e Tribunais.</b>`],
+  ['p', `E nenhum cursinho te contou isso até hoje porque é mais lucrativo vender a ilusão de que "decorar fórmula resolve".`],
+  ['p', `Mas você chegou ao lugar certo e na hora certa.`],
+  ['p', `Há como dominar as <b>Exatas</b> para concursos e em relativamente pouco tempo.`],
+  ['p', `Basta seguir o mesmo método que milhares de concurseiros já estão usando para serem aprovados nos principais concursos do Brasil.`],
+];
+
+// ---- Carta 2: história do Guilherme + método ----
+const storyLetter: [string, string | string[]][] = [
+  ['p', `<b>Muito prazer, sou o Professor Guilherme Neves,</b>`],
+  ['p', `Mas a maioria dos meus alunos me conhecem como <i>"o professor que virou a chave".</i>`],
+  ['p', `Não, eu não sou mágico.`],
+  ['p', `Mas, quando ninguém mais acreditava neles…`],
+  ['p', `… mostrei a eles que dava para sair do zero e chegar ao ponto de gabaritar provas de Estatística, Raciocínio Lógico e Matemática nos concursos.`],
+  ['p', `Eu vejo isso acontecer várias e várias vezes.`],
+  ['p', `Já ouvi aluno emocionado dizendo:`],
+  ['p', `<i>"Professor, a primeira vez que entendi porcentagem foi com você. Tenho 34 anos."</i>`],
+  ['p', `Já vi marido e mulher estudando na cozinha depois de um dia inteiro de trabalho e passando juntos: um na SEFAZ-MG, o outro para ISS-BH.`],
+  ['p', `Já ouvi de outro aluno Auditor Fiscal:`],
+  ['p', `<i>"A vida inteira me chamaram de burro em Exatas. Mas fui o único do grupo que gabaritou."</i>`],
+  ['p', `Além de um aluno meu, advogado, que chegou aqui completamente zerado, não lembrava nem como fazer uma conta de dividir:`],
+  ['p', `<i>"Mestre, é inacreditável! Gabaritei Estatística na prova da SEFA-PA!"</i>`],
+  ['p', `Se você também sente que ninguém te ensinou essas matérias Exatas do jeito certo…`],
+  ['p', `… talvez seja porque ninguém se importou de verdade com seu aprendizado.`],
+  ['p', `Só queriam te enfiar conteúdo goela abaixo sem se preocupar com o que você já sabe e, principalmente, com o que você ainda não sabe.`],
+  ['p', `Entenda o seguinte:`],
+  ['ul', [
+    `<b>Se você nunca aprendeu Exatas, não se preocupe, a culpa não é sua.</b>`,
+    `<b>Esqueça as más experiências anteriores. Em pouco tempo, com o método correto, você vai do zero ao avançado.</b>`,
+    `<b>Você só precisa seguir o método correto, passo a passo, e a "mágica" vai acontecer.</b>`,
+  ]],
+  ['p', `Assim como aconteceu com meu aluno advogado que comentei acima, que saiu da condição de "analfabeto" em Matemática e foi ao nível mais avançado possível: gabaritou Estatística e agora ganha mais de R$ 40 mil mensais como Auditor da SEFA-PA.`],
+  ['p', `Foi para proporcionar esse tipo de resultado aos meus alunos que eu decidi sair dos grandes cursinhos e ensinar esse método de Exatas da forma que eu entendi ser a melhor para os meus alunos.`],
+  ['p', `Porque lá, nos grandes cursinhos, você é só mais um número.`],
+  ['p', `Mas para que você possa aprender Exatas de verdade, eu preciso te conhecer pelo seu nome.`],
+  ['p', `Preciso saber sua história para saber onde você está, e assim te guiar pelo caminho mais rápido possível para que você alcance o que você quer.`],
+  ['p', `Qualquer que seja o concurso que você imagine, seja da <b>Área Fiscal, Área de Controle, Área Legislativa, Área Policial, Área Bancária ou Tribunais,</b> há alunos meus nas primeiras colocações.`],
+  ['p', `Vários em primeiro lugar.`],
+  ['p', `O que todos esses alunos aprovados têm em comum?`],
+  ['p', `Eles seguiram esse mesmo caminho:`],
+  ['ul', [
+    `<b>Tiveram humildade para recomeçar, às vezes do zero.</b>`,
+    `<b>Reconstruíram a base.</b>`,
+    `<b>Ignoraram o material genérico de Exatas dos pacotões dos cursinhos tradicionais e aplicaram o nosso método, passo a passo.</b>`,
+  ]],
+  ['p', `Não é à toa então que os Mentores de Concursos recomendam que seus alunos ignorem o material dos cursinhos e venham estudar Exatas comigo.`],
+  ['p', `Eles sabem que eu entrego o caminho para a aprovação.`],
+  ['p', `E esse caminho passa pela prova de Exatas!`],
+  ['p', `Como falei, vários aprovados chegaram aqui completamente zerados, sem nem lembrar como fazer uma divisão com vírgulas.`],
+  ['p', `Mas acreditaram e seguiram o nosso método, passo a passo.`],
+  ['p', `Foi seguindo esse método que meus alunos foram aprovados nas primeiras posições da <b>Receita Federal, dos principais Fiscos Estaduais e Municipais, no TCU, na Câmara e no Senado, na PF, na PRF, nas principais Polícias Civis e Militares, no Banco do Brasil e demais Bancos Públicos, e também nos principais Tribunais espalhados pelo Brasil.</b>`],
+  ['p', `Se você chegou aqui, pode comemorar.`],
+  ['p', `Você chegou no lugar certo e na hora certa, pois está conhecendo agora o método de aprendizado acelerado de Exatas para concursos que mais de 20.000 concurseiros já estão aplicando.`],
+  ['p', `Método que está empilhando aprovados nos melhores concursos do Brasil.`],
+  ['p', `Com esse método, você vai poder avançar anos em dias.`],
+  ['p', `E vai multiplicar as suas chances de alcançar a vaga.`],
+  ['p', `<b>HOJE VOCÊ ESTÁ DESCOBRINDO ENTÃO…</b>`],
+  ['p', `<b><i>A ÚNICA FORMA DE DOMINAR EXATAS PARA CONCURSOS</i></b> <i>(E POR QUE VOCÊ PODE ARRISCAR SUA VAGA SE NÃO SEGUIR ESSE PASSO A PASSO)</i>`],
+  ['p', `Depois de anos ensinando Exatas para concursos, eu descobri uma coisa:`],
+  ['p', `Não existe aluno "ruim em Matemática".`],
+  ['p', `Existe aluno que foi mal orientado.`],
+  ['p', `Mas para tudo existe solução.`],
+  ['p', `QUALQUER pessoa pode gabaritar Exatas e ser aprovado.`],
+  ['p', `Neste curso totalmente focado em Matemática, Raciocínio Lógico, Estatística e Matemática Financeira para concursos da <b>Área Fiscal, Área de Controle, Área Legislativa, Área Policial, Área Bancária ou Tribunais</b>, você vai aprender então o exato passo do método, que é composto por essas fases:`],
+  ['fase', `FASE 1: RECONSTRUINDO A BASE`],
+  ['p', `Antes de falar em distribuições estatísticas, proposições lógicas ou juros compostos, a gente vai direto na raiz:`],
+  ['ul', [
+    `Por que você trava lendo os enunciados de Exatas na prova?`,
+    `Por que você esquece o que acabou de estudar?`,
+    `Por que você entende a aula, mas erra as questões?`,
+  ]],
+  ['p', `Spoiler: não é falta de inteligência. É curto-circuito na base.`],
+  ['p', `Vou te mostrar:`],
+  ['ul', [
+    `O ponto exato onde sua lógica matemática quebrou.`,
+    `O que ninguém te ensinou sobre a arte de transformar palavras em equações.`,
+    `Como parar de decorar fórmula e finalmente ENTENDER a estrutura por trás dos cálculos.`,
+  ]],
+  ['p', `Resultado:`],
+  ['p', `Você vai sentir a matemática "clicando" no seu cérebro como se alguém tivesse acendido a luz.`],
+  ['p', `E, como num efeito dominó, a Matemática vai destravar Raciocínio Lógico e Estatística.`],
+  ['fase', `FASE 2: EFEITO DOMINÓ`],
+  ['p', `Quando você estuda sob medida, com um plano ajustado ao seu nível e à sua realidade, as coisas funcionam como o efeito dominó: tudo que você aprendeu ontem será essencial para você gabaritar exatas em qualquer prova, de qualquer banca.`],
+  ['p', `A Banca não quer saber se você estudou.`],
+  ['p', `A Banca quer saber se você pensa rápido e acerta sob pressão.`],
+  ['p', `Aqui você aprende:`],
+  ['ul', [
+    `Como desarmar as pegadinhas linguísticas da banca antes que elas te prendam.`,
+    `Como ler uma questão de Exatas e enxergar o "atalho" antes do concorrente terminar de ler o enunciado.`,
+    `Como identificar padrões de cobrança que aparecem TODO ANO nas provas de concursos.`,
+  ]],
+  ['p', `Resultado: você alcança o domínio necessário para enfrentar qualquer questão de Exatas da banca.`],
+  ['fase', `FASE 3: RETA FINAL (O QUE FAZER NO PRÉ E NO PÓS-EDITAL EM EXATAS PARA O SEU CONCURSO ESPECÍFICO)`],
+  ['p', `Você não pode ir para a prova de Exatas do seu concurso sem um plano.`],
+  ['p', `Aqui, o planejamento será cirúrgico:`],
+  ['ul', [
+    `Começamos com um plano de estudos específico para o seu concurso, com teoria e depois com questões "respiráveis", pra te dar controle e confiança.`,
+    `Depois subimos o nível, com questões que derrubam 80% dos candidatos em concursos.`,
+    `Até chegarmos ao nível de você responder no reflexo, sem travar, sem titubear, como quem vai pra matar ou morrer na prova.`,
+  ]],
+  ['p', `Resultado:`],
+  ['p', `Você vai para a prova frio, pronto, cirúrgico… enquanto a maioria ainda está tentando lembrar a fórmula do montante.`],
+  ['p', `É ISSO que aprova.`],
+  ['p', `E é exatamente esse método de estudo que você vai aprender.`],
+  ['p', `Depois que você aprende o caminho, nunca mais olha para as Exatas da mesma forma.`],
+  ['p', `Agora vamos a uma reflexão muito importante:`],
+  ['p', `<b>QUANTO CUSTA ERRAR AS QUESTÕES DE EXATAS NUMA PROVA?</b>`],
+  ['p', `Vamos fazer uma conta simples.`],
+  ['ul', [
+    `Salário inicial: vamos imaginar um concurso que pague por volta de R$ 30.000,00 por mês`,
+    `Por ano? R$ 360.000,00`,
+    `Próximo concurso? Só Deus sabe. Historicamente, só daqui a 4 anos.`,
+  ]],
+  ['p', `Agora respira… se você perder os pontos de Exatas dessa prova, isso vai te custar, em 4 anos, ou seja, um tempo médio até que saia outro edital, o seguinte montante aproximado:`],
+  ['p', `R$ 360.000,00 × 4 = R$ 1.440.000,00`],
+  ['p', `❌ Quase R$ 1 MILHÃO E MEIO jogados fora porque você travou em uma questão de Juros Compostos.`],
+  ['p', `❌ Quase R$ 1 MILHÃO E MEIO que poderiam ser seus se você não tivesse errado questões de Estatística.`],
+  ['p', `Mas não é "só" dinheiro, certo?`],
+  ['ul', [
+    `São mais 4 anos engolindo seco toda vez que alguém pergunta se você já passou.`,
+    `São mais 4 anos sem viajar de férias para o lugar que você quer.`,
+    `São mais 4 anos com sua família perguntando se você vai passar mais um feriado em casa trancado estudando.`,
+    `E vendo pessoas menos capazes passando no seu lugar.`,
+  ]],
+  ['p', `E se a aprovação no concurso é realmente o seu sonho, é ver passar a oportunidade que pode mudar a sua vida.`],
+  ['p', `E o pior?`],
+  ['ul', [
+    `Você SABE que tem capacidade.`,
+    `Você SABE que poderia passar.`,
+    `<u>Mas deixou</u> Exatas te sabotar.`,
+  ]],
+  ['p', `As questões que você evita… são as mesmas que colocam os outros no Diário Oficial.`],
+  ['p', `Você só travou onde não podia.`],
+  ['p', `Só que agora, você tem a chance de escrever outro final.`],
+  ['p', `Um final onde você olha para todos que duvidaram e diz:`],
+  ['p', `<i>"Eu passei, p@#&@!"</i>`],
+  ['p', `Um final onde sua família para de te olhar com pena… e começa a te olhar com ORGULHO.`],
+  ['p', `Onde você dorme com a cabeça leve, sabendo que fez o que precisava ser feito.`],
+  ['p', `Que terá o salário dos sonhos, no lugar que você quer, com a estabilidade que você merece.`],
+  ['p', `E tudo isso, porque você decidiu, agora, dominar o que realmente vai decidir a sua aprovação: a prova de EXATAS.`],
+  ['p', `Você está então a uma prova de Exatas da posse.`],
+  ['p', `São os pontos de Exatas que vão te fazer desempatar o jogo, ultrapassar a concorrência e conquistar a vaga.`],
+  ['p', `E o caminho para isso está aqui no método que milhares de aprovados já estão usando.`],
+  ['p', `Esse método poderoso que vai te fazer aprender Matemática, Raciocínio Lógico e Estatística em tempo recorde eu ensino na <b>Escola de Exatas</b>.`],
+];
 ---
 
 <Funnel title="A Escola de Exatas — Domine as Exatas nos Concursos" poster="/assets/hero-concursos.webp">
-  <!-- 1. HERO estático (sem VSL) -->
+  <div class="lp-concursos">
+  <!-- 1. HERO estático branco (sem VSL, sem botão — fiel ao original) -->
   <section class="hero-c">
     <div class="container hero-c__inner">
       <div class="hero-c__text">
@@ -171,39 +300,12 @@ const faq: [string, string][] = [
         <p class="hero-c__sub"><b>Mas você não precisa estar entre eles:</b> siga o método que milhares de concurseiros estão usando para dominarem Exatas em tempo recorde e serem aprovados — <b>e conquiste o diferencial que vai te colocar dentro das vagas.</b></p>
       </div>
       <div class="hero-c__img">
-        <img src="/assets/hero-concursos.webp" alt="Prof. Guilherme Neves — A Escola de Exatas" width="760" height="843" fetchpriority="high" decoding="async" />
+        <img src="/assets/hero-concursos.webp" alt="Prof. Guilherme Neves — A Escola de Exatas" width="720" height="799" fetchpriority="high" decoding="async" />
       </div>
     </div>
   </section>
 
-  <!-- 2. Bio Guilherme -->
-  <section class="bio-section">
-    <div class="bio">
-        <div class="bio__photo">
-          <img src="/assets/guilherme.webp" alt="Prof. Guilherme Neves" width="1170" height="1500" loading="lazy" />
-        </div>
-        <div class="bio__text">
-          <span class="bio__eyebrow">Conheça o professor</span>
-          <h2 class="bio__name">Guilherme Neves</h2>
-          <p>É graduado em Engenharia Civil pela University of Central Florida e atua há mais de 20 anos como professor de Matemática, Matemática Financeira, Raciocínio Lógico, Estatística e Física.</p>
-          <p>Autor do livro <i>Raciocínio Lógico Essencial</i> (Editora Campus Elsevier) e de centenas de obras digitais voltadas para concursos públicos, Guilherme desenvolveu uma metodologia reconhecida pela clareza, objetividade e resultados consistentes.</p>
-          <p>Foi também professor dos maiores cursos preparatórios do Brasil em suas respectivas épocas, como o Ponto dos Concursos e o Estratégia Concursos.</p>
-          <p>Seus alunos figuram entre os primeiros colocados nos concursos mais concorridos do país. Entre as conquistas recentes, destacam-se:</p>
-          <ul class="bio__list">
-            {conquistas.map((c) => (
-              <li>
-                <span class="bio__medal" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M7 4h10v2h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.6A5 5 0 0 1 13 16.9V19h3v2H8v-2h3v-2.1A5 5 0 0 1 7.6 13H7a4 4 0 0 1-4-4V8a2 2 0 0 1 2-2h2V4zm0 4H5v1a2 2 0 0 0 2 2V8zm10 0v3a2 2 0 0 0 2-2V8h-2z"></path></svg>
-                </span>
-                <span>{c}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-    </div>
-  </section>
-
-  <!-- 3. O resultado + aprovados (lista com scroll) -->
+  <!-- 2. O resultado + aprovados -->
   <section class="section bg-black">
     <div class="container resultado">
       <div class="resultado__intro">
@@ -246,73 +348,56 @@ const faq: [string, string][] = [
         var up = document.querySelector('[data-approv-up]');
         var down = document.querySelector('[data-approv-down]');
         var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
         var n = track.children.length;
         var frag = document.createDocumentFragment();
-        for (var i = 0; i < n; i++) {
-          var c = track.children[i].cloneNode(true);
-          c.setAttribute('aria-hidden', 'true');
-          frag.appendChild(c);
-        }
+        for (var i = 0; i < n; i++) { var c = track.children[i].cloneNode(true); c.setAttribute('aria-hidden', 'true'); frag.appendChild(c); }
         track.appendChild(frag);
-
         var resetAt = 0;
-        function measure() {
-          resetAt = track.children[n].getBoundingClientRect().top - track.children[0].getBoundingClientRect().top;
-        }
+        function measure() { resetAt = track.children[n].getBoundingClientRect().top - track.children[0].getBoundingClientRect().top; }
         measure();
-        window.addEventListener('resize', measure);
-        window.addEventListener('load', measure);
-
+        window.addEventListener('resize', measure); window.addEventListener('load', measure);
         var userPaused = false, offscreen = false, last = 0, pos = 0, resumeTimer = null;
-        var SPEED = 30;
-        var step = 180;
+        var SPEED = 30, step = 180;
         function active() { return !userPaused && !offscreen && resetAt > 0; }
         function frame(ts) {
           if (resetAt <= 0) measure();
-          if (active()) {
-            if (!last) last = ts;
-            pos += SPEED * (ts - last) / 1000;
-            last = ts;
-            if (pos >= resetAt) pos -= resetAt;
-          } else {
-            last = ts;
-          }
-          track.style.transform = 'translateY(' + -pos + 'px)';
-          requestAnimationFrame(frame);
+          if (active()) { if (!last) last = ts; pos += SPEED * (ts - last) / 1000; last = ts; if (pos >= resetAt) pos -= resetAt; } else { last = ts; }
+          track.style.transform = 'translateY(' + -pos + 'px)'; requestAnimationFrame(frame);
         }
         if (!reduce) requestAnimationFrame(frame);
-
-        function pause() { userPaused = true; }
-        function resume() { userPaused = false; }
+        function pause() { userPaused = true; } function resume() { userPaused = false; }
         function pauseThenResume(ms) { pause(); clearTimeout(resumeTimer); resumeTimer = setTimeout(resume, ms); }
         function nudge(dir) { pos += dir * step; if (resetAt > 0) { pos = ((pos % resetAt) + resetAt) % resetAt; } if (reduce) track.style.transform = 'translateY(' + -pos + 'px)'; }
-
-        vp.addEventListener('mouseenter', pause);
-        vp.addEventListener('mouseleave', resume);
+        vp.addEventListener('mouseenter', pause); vp.addEventListener('mouseleave', resume);
         vp.addEventListener('touchstart', function () { pauseThenResume(3000); }, { passive: true });
-
         if (up) up.addEventListener('click', function () { pauseThenResume(2500); nudge(-1); });
         if (down) down.addEventListener('click', function () { pauseThenResume(2500); nudge(1); });
-
-        if ('IntersectionObserver' in window) {
-          new IntersectionObserver(function (es) { offscreen = !es[0].isIntersecting; }, { threshold: 0 }).observe(vp);
-        }
+        if ('IntersectionObserver' in window) { new IntersectionObserver(function (es) { offscreen = !es[0].isIntersecting; }, { threshold: 0 }).observe(vp); }
       })();
     </script>
   </section>
 
-  <!-- 4. Veja como transformaram + carrossel aprovados -->
+  <!-- 3. Carta 1: checklist de dores (fundo branco) -->
+  <section class="section sec-white">
+    <div class="container">
+      <div class="letter">
+        {painLetter.map(([t, v]) => (
+          t === 'check'
+            ? <ul class="checklist">{(v as string[]).map((it) => <li>☑️ <span set:html={it} /></li>)}</ul>
+            : <p set:html={v as string}></p>
+        ))}
+      </div>
+      <div class="cta-wrap"><a class="btn btn--pulse" href="#valor">QUERO APRENDER COM ESSE MÉTODO</a></div>
+    </div>
+  </section>
+
+  <!-- 4. Veja como transformaram + carrossel -->
   <section class="section bg-panel">
     <div class="container center">
-      <h2 class="h-section">Veja como nossos alunos transformaram <b>Exatas em diferencial:</b></h2>
+      <h2 class="h-section">Veja como milhares de concurseiros estão usando as <b>Exatas</b> para <b>conquistar aprovações:</b></h2>
     </div>
-    <div class="container">
-      <MarqueeCarousel images={aprovPrints} alt="Prova de aprovação" />
-    </div>
-    <div class="container cta-wrap">
-      <a class="btn btn--pulse" href="#valor">QUERO DOMINAR EXATAS AGORA</a>
-    </div>
+    <div class="container"><MarqueeCarousel images={aprovPrints} alt="Prova de aprovação" /></div>
+    <div class="container cta-wrap"><a class="btn btn--pulse" href="#valor">QUERO DOMINAR EXATAS AGORA</a></div>
   </section>
 
   <!-- 5. Esse curso é para você que… -->
@@ -321,51 +406,47 @@ const faq: [string, string][] = [
       <h2 class="h-section">Esse curso é para você que…</h2>
       <div class="quem-grid">
         {quem.map(([icon, txt]) => (
-          <div class="quem-card">
-            <img src={icon} alt="" width="76" height="76" loading="lazy" />
-            <p>{txt}</p>
-          </div>
+          <div class="quem-card"><img src={icon} alt="" width="76" height="76" loading="lazy" /><p>{txt}</p></div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 6. Carta de vendas -->
-  <section class="section bg-panel">
+  <!-- 6. Carta 2: história + método (fundo branco) -->
+  <section class="section sec-white">
     <div class="container">
       <div class="letter">
-        {carta.map((p) => <p>{p}</p>)}
+        {storyLetter.map(([t, v]) => (
+          t === 'ul'
+            ? <ul class="dotlist">{(v as string[]).map((it) => <li set:html={it} />)}</ul>
+            : t === 'fase'
+            ? <p class="letter__fase" set:html={v as string}></p>
+            : <p set:html={v as string}></p>
+        ))}
       </div>
-      <div class="cta-wrap">
-        <a class="btn btn--pulse" href="#valor">QUERO APRENDER COM ESSE MÉTODO</a>
-      </div>
+      <div class="cta-wrap"><a class="btn btn--pulse" href="#valor">QUERO APRENDER COM ESSE MÉTODO</a></div>
     </div>
   </section>
 
-  <!-- 7. Na assinatura você tem acesso imediato -->
+  <!-- 7. Acesso imediato às trilhas -->
   <section class="section bg-black">
     <div class="container center">
-      <h2 class="h-section">Na assinatura você tem <b>acesso imediato</b> a:</h2>
+      <h2 class="h-section">Entrando hoje na Escola de Exatas você tem <b>acesso imediato</b> a todas essas trilhas de estudos:</h2>
     </div>
-    <div class="container">
-      <MarqueeCarousel images={modPrints} alt="Trilha de estudo" framed={false} width={216} />
-    </div>
+    <div class="container"><MarqueeCarousel images={modPrints} alt="Trilha de estudo" framed={false} width={216} /></div>
   </section>
 
   <!-- 8. Bônus -->
   <section class="section bg-panel">
     <div class="container center">
-      <h2 class="h-section">Para acelerar ainda mais o seu resultado… entrando hoje você ainda <b>leva bônus exclusivos!</b></h2>
-      <p class="lead" style="max-width:640px;margin:14px auto 0">
-        Sim, além de tudo o que você já leva hoje, eu ainda vou te dar 4 bônus especiais para acelerar o seu
-        aprendizado em Exatas e fazer você chegar mais rápido ao seu objetivo.
-      </p>
+      <h2 class="h-section">E para acelerar ainda mais o seu resultado… entrando hoje você ainda <b>leva bônus exclusivos!</b></h2>
+      <p class="lead" style="max-width:680px;margin:14px auto 0">Sim, além de tudo o que você já leva hoje, eu ainda vou te dar 4 bônus especiais para acelerar o seu aprendizado em Exatas e fazer você chegar mais rápido ao seu objetivo.</p>
+      <p class="lead" style="max-width:680px;margin:12px auto 0">Esses bônus, que eu chamo de "Cursos Enxutos", são ferramentas fundamentais para você acelerar e também revisar em situações de pós-edital em concursos da Área Fiscal, Área de Controle, Área Legislativa, Área Policial, Área Bancária e Tribunais.</p>
+      <p class="lead" style="max-width:680px;margin:12px auto 0">Eles são vendidos separadamente, mas se você se matricular hoje, eles saem para você sem custo adicional.</p>
       <div class="bonus-grid">
         {bonus.map((src, i) => <img src={src} alt={`Bônus ${i + 1}`} width="191" height="245" loading="lazy" />)}
       </div>
-      <div class="cta-wrap">
-        <a class="btn btn--pulse" href="#valor">QUERO APRENDER COM ESSE MÉTODO</a>
-      </div>
+      <div class="cta-wrap"><a class="btn btn--pulse" href="#valor">QUERO APRENDER COM ESSE MÉTODO</a></div>
     </div>
   </section>
 
@@ -375,27 +456,22 @@ const faq: [string, string][] = [
       <h2 class="h-section">Como funciona na prática:</h2>
       <div class="steps">
         {passos.map(([icon, txt]) => (
-          <div class="step">
-            <img src={icon} alt="" width="88" height="88" loading="lazy" />
-            <h3>{txt}</h3>
-          </div>
+          <div class="step"><img src={icon} alt="" width="88" height="88" loading="lazy" /><h3>{txt}</h3></div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 10. Imagine chegar na prova + banner + carrossel resultados -->
+  <!-- 10. Imagine chegar na prova + banner + carrossel -->
   <section class="section bg-panel">
     <div class="container center">
       <h2 class="h-mid" style="max-width:720px;margin-inline:auto;font-weight:500">
-        Imagine chegar na prova do seu Concurso sabendo o que fazer na prova de Exatas. <b>Você acerta onde a maioria
-        erra</b>. Com esses pontos, você desempata o jogo, ultrapassa a concorrência e conquista a vaga.
+        Imagine chegar na sua próxima prova sem medo de Exatas. <b>Você acerta onde a maioria erra.</b>
+        Com esses pontos extras, você desempata o jogo, ultrapassa a concorrência e conquista a vaga.
       </h2>
       <img class="banner-full" src="/assets/banner-resultado.webp" alt="Resultados dos alunos" width="1024" height="501" loading="lazy" />
     </div>
-    <div class="container">
-      <MarqueeCarousel images={resultPrints} alt="Resultado de aluno" />
-    </div>
+    <div class="container"><MarqueeCarousel images={resultPrints} alt="Resultado de aluno" /></div>
   </section>
 
   <!-- 11. Veja tudo o que você ganha + value stack -->
@@ -403,16 +479,16 @@ const faq: [string, string][] = [
     <div class="container center">
       <h2 class="h-section">Veja tudo o que você ganha ao se <b>matricular hoje!</b></h2>
       <ul class="stack">
-        {stack.map(([item, price]) => (
-          <li><span>{item}</span><span class="price">{price}</span></li>
-        ))}
+        {stack.map(([item, price]) => (<li><span>{item}</span><span class="price">{price}</span></li>))}
       </ul>
       <div class="narrow" style="margin-top:24px">
         <p class="lead">Como mostrei acima, você terá acesso a um pacote que vale <b>mais de R$ 3.670</b> para ter tudo
           que você precisa de Exatas em pré e em pós-edital nos concursos da Área Fiscal, Controle, Legislativa,
           Policial, Bancária e Tribunais.</p>
-        <p class="lead" style="margin-top:14px">Mas entrando hoje você pode escolher entre <b>acesso vitalício</b> ou
-          <b>acesso por 1 ano</b>, com descontos de mais de 80%. E ainda ganha todos os bônus junto.</p>
+        <p class="lead" style="margin-top:14px">Mas entrando hoje você não vai pagar nem metade desse valor. Nem perto disso.
+          Vou te dar <b>descontos inacreditáveis de mais de 80%</b> em nossos planos.</p>
+        <p class="lead" style="margin-top:14px">Você ainda vai poder escolher entre duas opções com desconto:
+          <b>Acesso Vitalício</b> ou <b>Acesso por 1 ano</b>. Escolha sua opção e ganhe também todos os bônus.</p>
         <p class="lead muted" style="margin-top:14px"><b>Obs.:</b> essa é uma condição exclusiva que vale apenas hoje!</p>
       </div>
     </div>
@@ -428,7 +504,7 @@ const faq: [string, string][] = [
           checkout="https://pay.hotmart.com/Q41076039H?off=06eyzllb&sck=org"
           plan="Acesso Vitalício"
           badge="Melhor opção"
-          desc="Você viu tudo o que está incluso — um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>acesso vitalício</b>, por apenas:"
+          desc="Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>acesso vitalício</b>, por apenas:"
           price="R$ 497"
           installment="12x de R$ 51"
           ctaLabel="QUERO ACESSO VITALÍCIO"
@@ -438,7 +514,7 @@ const faq: [string, string][] = [
           plan="01 ano de acesso"
           badge=""
           isBest={false}
-          desc="Você viu tudo o que está incluso — um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>1 ano de acesso</b>, por apenas:"
+          desc="Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>1 ano de acesso</b>, por apenas:"
           price="R$ 397"
           installment="12x de R$ 41"
           ctaLabel="QUERO 01 ANO DE ACESSO"
@@ -465,41 +541,45 @@ const faq: [string, string][] = [
     </div>
   </section>
 
-  <!-- 14. Garantia (fundo seda + parallax) -->
-  <section class="garantia">
-    <div class="garantia__bg" data-parallax></div>
-    <div class="container garantia__inner">
-      <img class="garantia__shield" src="/assets/cta-icon.webp" alt="Garantia de 7 dias" width="140" height="140" loading="lazy" />
-      <div class="garantia__content">
-        <p class="garantia__txt">Você tem <b>7 dias de garantia incondicional</b>. Se não for para você, devolvemos 100% do valor.</p>
+  <!-- 14. Garantia — faixa laranja -->
+  <section class="garantia-c">
+    <div class="container garantia-c__inner">
+      <img class="garantia-c__shield" src="/assets/cta-icon.webp" alt="Garantia de 7 dias" width="140" height="140" loading="lazy" />
+      <div class="garantia-c__content">
+        <p class="garantia-c__txt">Você tem <b>7 dias de garantia incondicional.</b> Se não for para você, devolvemos 100% do valor.</p>
         <a class="btn btn--pulse" href="#valor">QUERO DOMINAR EXATAS AGORA</a>
       </div>
     </div>
-    <script is:inline>
-      (function () {
-        var bg = document.querySelector('.garantia [data-parallax]');
-        if (!bg) return;
-        var sec = bg.closest('.garantia');
-        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduce) return;
-        var ticking = false;
-        function update() {
-          ticking = false;
-          var r = sec.getBoundingClientRect();
-          var vh = window.innerHeight || document.documentElement.clientHeight;
-          if (r.bottom < -120 || r.top > vh + 120) return;
-          var prog = (r.top + r.height / 2 - vh / 2) / vh;
-          bg.style.transform = 'translate3d(0,' + (prog * 200).toFixed(1) + 'px,0)';
-        }
-        function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', update);
-        update();
-      })();
-    </script>
   </section>
 
-  <!-- 15. Atenção + countdown -->
+  <!-- 15. Bio Guilherme (no fim, como no original) -->
+  <section class="bio-section">
+    <div class="bio">
+      <div class="bio__photo">
+        <img src="/assets/guilherme.webp" alt="Prof. Guilherme Neves" width="1170" height="1500" loading="lazy" />
+      </div>
+      <div class="bio__text">
+        <span class="bio__eyebrow">Conheça o professor</span>
+        <h2 class="bio__name">Guilherme Neves</h2>
+        <p>É graduado em Engenharia Civil pela University of Central Florida e atua há mais de 20 anos como professor de Matemática, Matemática Financeira, Raciocínio Lógico, Estatística e Física.</p>
+        <p>Autor do livro <i>Raciocínio Lógico Essencial</i> (Editora Campus Elsevier) e de centenas de obras digitais voltadas para concursos públicos, Guilherme desenvolveu uma metodologia reconhecida pela clareza, objetividade e resultados consistentes.</p>
+        <p>Foi também professor dos maiores cursos preparatórios do Brasil em suas respectivas épocas, como o Ponto dos Concursos e o Estratégia Concursos.</p>
+        <p>Seus alunos figuram entre os primeiros colocados nos concursos mais concorridos do país. Entre as conquistas recentes, destacam-se:</p>
+        <ul class="bio__list">
+          {conquistas.map((c) => (
+            <li>
+              <span class="bio__medal" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7 4h10v2h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.6A5 5 0 0 1 13 16.9V19h3v2H8v-2h3v-2.1A5 5 0 0 1 7.6 13H7a4 4 0 0 1-4-4V8a2 2 0 0 1 2-2h2V4zm0 4H5v1a2 2 0 0 0 2 2V8zm10 0v3a2 2 0 0 0 2-2V8h-2z"></path></svg>
+              </span>
+              <span>{c}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atenção + countdown -->
   <section class="section bg-black">
     <div class="container">
       <div class="atencao-card">
@@ -541,28 +621,24 @@ const faq: [string, string][] = [
           mEl.textContent = pad(Math.floor((t % 3600) / 60));
           sEl.textContent = pad(t % 60);
         }
-        tick();
-        setInterval(tick, 1000);
+        tick(); setInterval(tick, 1000);
       })();
     </script>
   </section>
 
-  <!-- 16. FAQ -->
-  <section class="section bg-black">
+  <!-- 17. FAQ -->
+  <section class="section bg-dark">
     <div class="container center">
       <h2 class="h-section">Perguntas <b>frequentes</b></h2>
       <div class="faq">
         {faq.map(([q, a]) => (
-          <details>
-            <summary>{q}</summary>
-            <div class="faq__answer">{a}</div>
-          </details>
+          <details><summary>{q}</summary><div class="faq__answer">{a}</div></details>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 17. Final CTA (fundo com as fotos dos alunos) -->
+  <!-- 18. Final CTA -->
   <section class="final-cta">
     <div class="final-cta__bg"></div>
     <div class="container final-cta__inner">
@@ -572,9 +648,9 @@ const faq: [string, string][] = [
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="site-footer">
     <div class="site-footer__brand">A Escola de Exatas</div>
     <p>© {new Date().getFullYear()} A Escola de Exatas — Todos os direitos reservados.</p>
   </footer>
+  </div>
 </Funnel>
