@@ -9,6 +9,16 @@ import Funnel from '../layouts/Funnel.astro';
 import MarqueeCarousel from './MarqueeCarousel.astro';
 import PriceCard from './PriceCard.astro';
 
+// checkouts variam por origem (tráfego direto vs bio do Instagram)
+export interface Props {
+  checkoutVitalicio?: string; // plano R$ 497 (vitalício)
+  checkout1ano?: string; // plano R$ 397 (1 ano)
+}
+const {
+  checkoutVitalicio = 'https://pay.hotmart.com/Q41076039H?off=4omacfzv',
+  checkout1ano = 'https://pay.hotmart.com/Q41076039H?off=d91627i0',
+} = Astro.props;
+
 const conquistas = [
   '4 entre os 10 primeiros do TCU',
   '4 entre os 10 primeiros da SEFA-PA',
@@ -501,7 +511,7 @@ const storyLetter: [string, string | string[]][] = [
       <p class="lead" style="color:#dfe0ff;max-width:600px;margin:8px auto 0">Escolha entre <b>Acesso Vitalício</b> ou <b>Acesso por 1 ano</b> — condição exclusiva que vale apenas hoje.</p>
       <div class="pricing-grid">
         <PriceCard
-          checkout="https://pay.hotmart.com/Q41076039H?off=06eyzllb&sck=org"
+          checkout={checkoutVitalicio}
           plan="Acesso Vitalício"
           badge="Melhor opção"
           desc="Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>acesso vitalício</b>, por apenas:"
@@ -510,7 +520,7 @@ const storyLetter: [string, string | string[]][] = [
           ctaLabel="QUERO ACESSO VITALÍCIO"
         />
         <PriceCard
-          checkout="https://pay.hotmart.com/Y61684441H?off=pcmwmexe&sck=org"
+          checkout={checkout1ano}
           plan="01 ano de acesso"
           badge=""
           isBest={false}
