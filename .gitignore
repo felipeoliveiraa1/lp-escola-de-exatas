@@ -20,3 +20,6 @@ dom-content.json
 npm-debug.log*
 aescoladeexatas.com_up_1_ee_v2/
 aescoladeexatas.com_dw_1_ee_v3/
+
+# snapshots baixados do WP (referência, não versionar)
+aescoladeexatas.com_*/

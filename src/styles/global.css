@@ -176,6 +176,26 @@ b, strong { color: var(--yellow); font-weight: 800; }
 @media (prefers-reduced-motion: reduce) { .vsl-slot__play { animation: none; } }
 
 /* ============================================================
+   Hero estático (concursos) — sem VSL, imagem + copy + CTA
+   ============================================================ */
+.hero-c { background: linear-gradient(155deg, #02007b 0%, #05052e 100%); padding: 34px 20px 0; overflow: hidden; }
+.hero-c__inner { display: grid; gap: 6px; align-items: end; }
+.hero-c__text { text-align: center; padding-top: 12px; }
+.hero-c__title { color: #fff; font-size: clamp(26px, 6.2vw, 44px); font-weight: 800; line-height: 1.12; }
+.hero-c__sub { color: #d7d8f2; font-size: clamp(15px, 2.4vw, 18px); line-height: 1.5; margin: 18px auto 0; max-width: 560px; }
+.hero-c__sub b { color: var(--yellow); }
+.hero-c__cta { margin: 26px auto 22px; max-width: 460px; }
+.hero-c__img { display: flex; justify-content: center; align-items: flex-end; }
+.hero-c__img img { width: auto; max-height: 440px; filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.45)); }
+@media (min-width: 900px) {
+  .hero-c { padding: 18px 24px 0; }
+  .hero-c__inner { grid-template-columns: 1.08fr 0.92fr; gap: 30px; }
+  .hero-c__text { text-align: left; padding: 44px 0; }
+  .hero-c__cta { margin-inline: 0; }
+  .hero-c__img img { max-height: 560px; }
+}
+
+/* ============================================================
    Bio (Guilherme)
    ============================================================ */
 .bio-section { background: #141414; overflow: hidden; }
