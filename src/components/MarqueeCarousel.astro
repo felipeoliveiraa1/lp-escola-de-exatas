@@ -24,7 +24,7 @@ const { images, alt, framed = true, width = 264 } = Astro.props;
     <div class="mcar__track">
       {images.map((src, i) => (
         <div class="mcar__card">
-          <img src={src} alt={`${alt} ${i + 1}`} width="768" height="1024" loading="lazy" decoding="async" />
+          <img data-src={src} alt={`${alt} ${i + 1}`} width="768" height="1024" decoding="async" />
         </div>
       ))}
     </div>
@@ -53,6 +53,23 @@ const { images, alt, framed = true, width = 264 } = Astro.props;
         frag.appendChild(c);
       }
       track.appendChild(frag);
+
+      // lazy real: só baixa as imagens quando o carrossel chega perto do viewport
+      // (evita que 40+ imagens disputem banda com o LCP no load da página)
+      const loadImgs = () => {
+        m.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => {
+          img.src = img.getAttribute('data-src')!;
+          img.removeAttribute('data-src');
+        });
+      };
+      if ('IntersectionObserver' in window) {
+        const lio = new IntersectionObserver((es) => {
+          if (es.some((e) => e.isIntersecting)) { loadImgs(); lio.disconnect(); }
+        }, { rootMargin: '400px 0px' });
+        lio.observe(m);
+      } else {
+        loadImgs();
+      }
 
       let resetAt = 0, step = 280;
       const measure = () => {
