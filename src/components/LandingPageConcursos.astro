@@ -406,7 +406,7 @@ const storyLetter: [string, string | string[]][] = [
       <h2 class="h-section">Esse curso é para você que…</h2>
       <div class="quem-grid">
         {quem.map(([icon, txt]) => (
-          <div class="quem-card"><img src={icon} alt="" width="76" height="76" loading="lazy" /><p>{txt}</p></div>
+          <div class="quem-card"><img data-lazysrc={icon} alt="" width="76" height="76" /><p>{txt}</p></div>
         ))}
       </div>
     </div>
@@ -444,7 +444,7 @@ const storyLetter: [string, string | string[]][] = [
       <p class="lead" style="max-width:680px;margin:12px auto 0">Esses bônus, que eu chamo de "Cursos Enxutos", são ferramentas fundamentais para você acelerar e também revisar em situações de pós-edital em concursos da Área Fiscal, Área de Controle, Área Legislativa, Área Policial, Área Bancária e Tribunais.</p>
       <p class="lead" style="max-width:680px;margin:12px auto 0">Eles são vendidos separadamente, mas se você se matricular hoje, eles saem para você sem custo adicional.</p>
       <div class="bonus-grid">
-        {bonus.map((src, i) => <img src={src} alt={`Bônus ${i + 1}`} width="191" height="245" loading="lazy" />)}
+        {bonus.map((src, i) => <img data-lazysrc={src} alt={`Bônus ${i + 1}`} width="191" height="245" />)}
       </div>
       <div class="cta-wrap"><a class="btn btn--pulse" href="#valor">QUERO APRENDER COM ESSE MÉTODO</a></div>
     </div>
@@ -456,7 +456,7 @@ const storyLetter: [string, string | string[]][] = [
       <h2 class="h-section">Como funciona na prática:</h2>
       <div class="steps">
         {passos.map(([icon, txt]) => (
-          <div class="step"><img src={icon} alt="" width="88" height="88" loading="lazy" /><h3>{txt}</h3></div>
+          <div class="step"><img data-lazysrc={icon} alt="" width="88" height="88" /><h3>{txt}</h3></div>
         ))}
       </div>
     </div>
@@ -469,7 +469,7 @@ const storyLetter: [string, string | string[]][] = [
         Imagine chegar na sua próxima prova sem medo de Exatas. <b>Você acerta onde a maioria erra.</b>
         Com esses pontos extras, você desempata o jogo, ultrapassa a concorrência e conquista a vaga.
       </h2>
-      <img class="banner-full" src="/assets/banner-resultado.webp" alt="Resultados dos alunos" width="1024" height="501" loading="lazy" />
+      <img class="banner-full" data-lazysrc="/assets/banner-resultado.webp" alt="Resultados dos alunos" width="1024" height="501" />
     </div>
     <div class="container"><MarqueeCarousel images={resultPrints} alt="Resultado de aluno" /></div>
   </section>
@@ -532,7 +532,7 @@ const storyLetter: [string, string | string[]][] = [
           <div class="compare__head"><h3>Com o método exclusivo da<br /><b>Escola de Exatas:</b></h3></div>
           <ul class="compare__list">{bons.map((b) => <li>{b}</li>)}</ul>
         </div>
-        <img class="compare__coin" src="/assets/coin-exatas.webp" alt="A Escola de Exatas" width="116" height="116" loading="lazy" />
+        <img class="compare__coin" data-lazysrc="/assets/coin-exatas.webp" alt="A Escola de Exatas" width="116" height="116" />
         <div class="compare__col compare__col--bad">
           <div class="compare__head"><h3>Com os métodos<br />tradicionais:</h3></div>
           <ul class="compare__list">{ruins.map((r) => <li>{r}</li>)}</ul>
@@ -556,7 +556,7 @@ const storyLetter: [string, string | string[]][] = [
   <section class="bio-section">
     <div class="bio">
       <div class="bio__photo">
-        <img src="/assets/guilherme.webp" alt="Prof. Guilherme Neves" width="1170" height="1500" loading="lazy" />
+        <img data-lazysrc="/assets/guilherme.webp" alt="Prof. Guilherme Neves" width="1170" height="1500" />
       </div>
       <div class="bio__text">
         <span class="bio__eyebrow">Conheça o professor</span>
@@ -653,4 +653,21 @@ const storyLetter: [string, string | string[]][] = [
     <p>© {new Date().getFullYear()} A Escola de Exatas — Todos os direitos reservados.</p>
   </footer>
   </div>
+
+  <!-- lazy real p/ imagens avulsas below-fold (não disputar banda com o hero/LCP) -->
+  <script is:inline>
+    (function () {
+      var imgs = document.querySelectorAll('img[data-lazysrc]');
+      if (!imgs.length) return;
+      function load(img) { img.src = img.getAttribute('data-lazysrc'); img.removeAttribute('data-lazysrc'); }
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { load(e.target); io.unobserve(e.target); } });
+        }, { rootMargin: '500px 0px' });
+        for (var i = 0; i < imgs.length; i++) io.observe(imgs[i]);
+      } else {
+        for (var j = 0; j < imgs.length; j++) load(imgs[j]);
+      }
+    })();
+  </script>
 </Funnel>
