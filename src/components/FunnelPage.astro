@@ -15,14 +15,16 @@ export interface Props {
   delaySeconds: number;
   /** URL do stream .m3u8 p/ preload (otimização de velocidade da VSL). Opcional. */
   m3u8?: string;
+  /** ID do Google Ads (gtag) — só nas páginas -google */
+  gtagId?: string;
 }
-const { title, heading, sub, playerId, delaySeconds, m3u8 } = Astro.props;
+const { title, heading, sub, playerId, delaySeconds, m3u8, gtagId } = Astro.props;
 const ACCOUNT = '1f136267-6fae-424a-a2af-6f55173425e6';
 const playerJs = `https://scripts.converteai.net/${ACCOUNT}/players/${playerId}/v4/player.js`;
 const smartplayerJs = 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js';
 ---
 
-<Funnel title={title} poster={null}>
+<Funnel title={title} poster={null} gtagId={gtagId}>
   {m3u8 && (
     <Fragment slot="head">
       <script is:inline>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>

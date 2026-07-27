@@ -14,6 +14,8 @@ export interface Props {
   pitchMap?: Record<string, number>;
   /** delay (s) p/ variante fora do mapa; null = não revela */
   pitchFallback?: number | null;
+  /** ID do Google Ads (gtag) — só nas páginas -google */
+  gtagId?: string;
 }
 const {
   checkout,
@@ -27,6 +29,7 @@ const {
     '6944034c738d3928ecc708de': 1555, // Lead 7 — 25:55
   },
   pitchFallback = null,
+  gtagId,
 } = Astro.props;
 
 // ----- VSL (vturb / converteai) — teste A/B -----
@@ -185,7 +188,7 @@ const faq: [string, string][] = [
 ];
 ---
 
-<Funnel>
+<Funnel gtagId={gtagId}>
   <!-- 1. VSL (fundo branco) -->
   <section class="section" style="background:#fff;padding-top:34px;padding-bottom:34px">
     <div class="container">
