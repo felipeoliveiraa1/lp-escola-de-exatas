@@ -1,0 +1,17 @@
+---
+// 297 GOOGLE — VSL "sem edição" (A/B 6a64cbff, leads 5/6/7). Mesmo checkout da /aula.
+import LandingPage from '../components/LandingPage.astro';
+---
+
+<LandingPage
+  checkout="https://pay.hotmart.com/K106439606D?off=281gvjiz"
+  price="R$ 297"
+  installment="12x de R$ 30"
+  abTestId="6a64cbfff1a95efe570b0c2b"
+  pitchMap={{
+    '6a642a732b91c64dc62fd638': 1610, // Lead 5 — 26:50
+    '6a64a5bfd136f2ab792d89cb': 1595, // Lead 6 — 26:35
+    '6a64b6ca8c0cec32cb91ab69': 1595, // Lead 7 — 26:35
+  }}
+  pitchFallback={1595}
+/>

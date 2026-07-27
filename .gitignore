@@ -23,3 +23,6 @@ aescoladeexatas.com_dw_1_ee_v3/
 
 # snapshots baixados do WP (referência, não versionar)
 aescoladeexatas.com_*/
+
+# arquivos de referência (scripts vturb, não versionar)
+Scripts da Vturb*.txt

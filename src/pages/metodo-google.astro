@@ -1,0 +1,17 @@
+---
+// 497 GOOGLE — VSL "sem edição" (A/B 6a64cc2e, leads 5/6/7). Mesmo checkout da /metodo.
+import LandingPage from '../components/LandingPage.astro';
+---
+
+<LandingPage
+  checkout="https://pay.hotmart.com/K106439606D?off=dxd3njuo"
+  price="R$ 497"
+  installment="12x de R$ 51"
+  abTestId="6a64cc2ed031063d52b722b5"
+  pitchMap={{
+    '6a643bd7968749729f83ba52': 1620, // Lead 5 — 27:00
+    '6a64b353f0c5c6e778337b5a': 1620, // Lead 6 — 27:00
+    '6a64be196ca3049bfec0fb59': 1610, // Lead 7 — 26:50
+  }}
+  pitchFallback={1610}
+/>
