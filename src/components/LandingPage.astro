@@ -16,6 +16,8 @@ export interface Props {
   pitchFallback?: number | null;
   /** ID do Google Ads (gtag) — só nas páginas -google */
   gtagId?: string;
+  /** true = rodapé de disclaimer do Google (compliance), sempre visível */
+  googleFooter?: boolean;
 }
 const {
   checkout,
@@ -30,6 +32,7 @@ const {
   },
   pitchFallback = null,
   gtagId,
+  googleFooter = false,
 } = Astro.props;
 
 // ----- VSL (vturb / converteai) — teste A/B -----
@@ -587,13 +590,25 @@ const faq: [string, string][] = [
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="site-footer__brand">A Escola de Exatas</div>
-    <p>© {new Date().getFullYear()} A Escola de Exatas — Todos os direitos reservados.</p>
-  </footer>
+  <!-- Footer padrão (não-Google) -->
+  {!googleFooter && (
+    <footer class="site-footer">
+      <div class="site-footer__brand">A Escola de Exatas</div>
+      <p>© {new Date().getFullYear()} A Escola de Exatas — Todos os direitos reservados.</p>
+    </footer>
+  )}
 
   </div><!-- /.esconder -->
+
+  {/* Rodapé de disclaimer do Google — SEMPRE visível (fora do gate) p/ compliance */}
+  {googleFooter && (
+    <footer class="site-footer site-footer--legal">
+      <div class="container">
+        <p class="site-footer__disclaimer">Este site e a Escola de Exatas não fazem parte do site ou da rede de sites da Hotmart ou do Google™, como o YouTube™, ou de qualquer empresa pertencente ao Google™ ou ao YouTube™. Além disso, este site não é endossado pelo Google™ ou pelo YouTube™ Inc. de forma alguma. Google™ é uma marca registrada de todas as suas respectivas empresas. AGÊNCIA GETTARE LANÇAMENTOS DE CURSOS DIGITAIS LTDA | CNPJ: 38.112.381/0001-73</p>
+        <p class="site-footer__legal">© 2025 Escola de Exatas — Todos os direitos reservados. <span class="site-footer__link">Termos de Uso</span> · <span class="site-footer__link">Política de Privacidade</span></p>
+      </div>
+    </footer>
+  )}
 
   <!-- Delay/gate da VSL (teste A/B): revela .esconder no pitch da variante sorteada -->
   <script is:inline define:vars={{ pitchMap, pitchFallback }}>
