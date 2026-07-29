@@ -1,0 +1,35 @@
+---
+/** Bio do expert (Guilherme Neves) — "Conheça o professor". Seção reutilizável. */
+const conquistas = [
+  '4 entre os 10 primeiros do TCU',
+  '4 entre os 10 primeiros da SEFA-PA',
+  '4 entre os 10 primeiros da SEFAZ-AC',
+  '8 entre os 20 primeiros (incluindo o 1º lugar nacional) na Polícia Federal',
+];
+---
+
+<section class="bio-section">
+  <div class="bio">
+    <div class="bio__photo">
+      <img src="/assets/guilherme.webp" alt="Prof. Guilherme Neves" width="1170" height="1500" loading="lazy" />
+    </div>
+    <div class="bio__text">
+      <span class="bio__eyebrow">Conheça o professor</span>
+      <h2 class="bio__name">Guilherme Neves</h2>
+      <p>É graduado em Engenharia Civil pela University of Central Florida e atua há mais de 20 anos como professor de Matemática, Matemática Financeira, Raciocínio Lógico, Estatística e Física.</p>
+      <p>Autor do livro <i>Raciocínio Lógico Essencial</i> (Editora Campus Elsevier) e de centenas de obras digitais voltadas para concursos públicos, Guilherme desenvolveu uma metodologia reconhecida pela clareza, objetividade e resultados consistentes.</p>
+      <p>Foi também professor dos maiores cursos preparatórios do Brasil em suas respectivas épocas, como o Ponto dos Concursos e o Estratégia Concursos.</p>
+      <p>Seus alunos figuram entre os primeiros colocados nos concursos mais concorridos do país. Entre as conquistas recentes, destacam-se:</p>
+      <ul class="bio__list">
+        {conquistas.map((c) => (
+          <li>
+            <span class="bio__medal" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M7 4h10v2h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-.6A5 5 0 0 1 13 16.9V19h3v2H8v-2h3v-2.1A5 5 0 0 1 7.6 13H7a4 4 0 0 1-4-4V8a2 2 0 0 1 2-2h2V4zm0 4H5v1a2 2 0 0 0 2 2V8zm10 0v3a2 2 0 0 0 2-2V8h-2z"></path></svg>
+            </span>
+            <span>{c}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
