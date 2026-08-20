@@ -13,10 +13,16 @@ import PriceCard from './PriceCard.astro';
 export interface Props {
   checkoutVitalicio?: string; // plano R$ 497 (vitalício)
   checkout1ano?: string; // plano R$ 397 (1 ano)
+  /** true = uma torre só, oferta 297 anual (sem vitalício/397) */
+  single297?: boolean;
+  /** checkout do plano 297 anual (quando single297) */
+  checkout297?: string;
 }
 const {
   checkoutVitalicio = 'https://pay.hotmart.com/Q41076039H?off=4omacfzv',
   checkout1ano = 'https://pay.hotmart.com/Q41076039H?off=d91627i0',
+  single297 = false,
+  checkout297 = 'https://pay.hotmart.com/K106439606D?off=281gvjiz',
 } = Astro.props;
 
 const conquistas = [
@@ -125,7 +131,7 @@ const ruins = [
 
 const faq: [string, string][] = [
   ['Como funciona o acesso ao curso?', 'Assim que finalizar o pagamento, o acesso chegará de maneira imediata no seu e-mail.'],
-  ['Por quanto tempo terei acesso ao conteúdo?', 'Depende do plano escolhido: no plano de 1 ano, você tem acesso por 12 meses a contar da data do pagamento; no plano vitalício, o acesso é para sempre.'],
+  ['Por quanto tempo terei acesso ao conteúdo?', single297 ? 'Você terá 1 ano completo de acesso à plataforma a contar da data do pagamento.' : 'Depende do plano escolhido: no plano de 1 ano, você tem acesso por 12 meses a contar da data do pagamento; no plano vitalício, o acesso é para sempre.'],
   ['O curso é ao vivo ou gravado?', 'As aulas já estão gravadas e você pode assistir quantas vezes quiser durante o seu período de acesso.'],
   ['Posso assistir às aulas no celular, tablet ou computador?', 'Sim, você pode assistir de qualquer um desses dispositivos.'],
   ['Preciso ter algum conhecimento prévio para acompanhar?', 'Não, partimos juntos, do zero, e vamos até o avançado.'],
@@ -496,40 +502,50 @@ const storyLetter: [string, string | string[]][] = [
           que você precisa de Exatas em pré e em pós-edital nos concursos da Área Fiscal, Controle, Legislativa,
           Policial, Bancária e Tribunais.</p>
         <p class="lead" style="margin-top:14px">Mas entrando hoje você não vai pagar nem metade desse valor. Nem perto disso.
-          Vou te dar <b>descontos inacreditáveis de mais de 80%</b> em nossos planos.</p>
-        <p class="lead" style="margin-top:14px">Você ainda vai poder escolher entre duas opções com desconto:
-          <b>Acesso Vitalício</b> ou <b>Acesso por 1 ano</b>. Escolha sua opção e ganhe também todos os bônus.</p>
+          Vou te dar <b>descontos inacreditáveis de mais de {single297 ? '90%' : '80%'}</b> em {single297 ? 'nosso plano' : 'nossos planos'}.</p>
+        {!single297 && (
+          <p class="lead" style="margin-top:14px">Você ainda vai poder escolher entre duas opções com desconto:
+            <b>Acesso Vitalício</b> ou <b>Acesso por 1 ano</b>. Escolha sua opção e ganhe também todos os bônus.</p>
+        )}
         <p class="lead muted" style="margin-top:14px"><b>Obs.:</b> essa é uma condição exclusiva que vale apenas hoje!</p>
       </div>
     </div>
   </section>
 
-  <!-- 12. PRICING (#valor) — 2 planos -->
+  <!-- 12. PRICING (#valor) -->
   <section class="section pricing" id="valor">
     <div class="container center">
       <h2 class="h-section" style="color:#fff">Garanta seu acesso à <b>Escola de Exatas</b></h2>
-      <p class="lead" style="color:#dfe0ff;max-width:600px;margin:8px auto 0">Escolha entre <b>Acesso Vitalício</b> ou <b>Acesso por 1 ano</b> — condição exclusiva que vale apenas hoje.</p>
-      <div class="pricing-grid">
-        <PriceCard
-          checkout={checkoutVitalicio}
-          plan="Acesso Vitalício"
-          badge="Melhor opção"
-          desc="Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>acesso vitalício</b>, por apenas:"
-          price="R$ 497"
-          installment="12x de R$ 51"
-          ctaLabel="QUERO ACESSO VITALÍCIO"
-        />
-        <PriceCard
-          checkout={checkout1ano}
-          plan="01 ano de acesso"
-          badge=""
-          isBest={false}
-          desc="Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>1 ano de acesso</b>, por apenas:"
-          price="R$ 397"
-          installment="12x de R$ 41"
-          ctaLabel="QUERO 01 ANO DE ACESSO"
-        />
-      </div>
+      {!single297 && (
+        <p class="lead" style="color:#dfe0ff;max-width:600px;margin:8px auto 0">Escolha entre <b>Acesso Vitalício</b> ou <b>Acesso por 1 ano</b> — condição exclusiva que vale apenas hoje.</p>
+      )}
+      {single297 ? (
+        <div class="pricing-grid pricing-grid--single">
+          <PriceCard checkout={checkout297} price="R$ 297" installment="12x de R$ 30" />
+        </div>
+      ) : (
+        <div class="pricing-grid">
+          <PriceCard
+            checkout={checkoutVitalicio}
+            plan="Acesso Vitalício"
+            badge="Melhor opção"
+            desc="Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>acesso vitalício</b>, por apenas:"
+            price="R$ 497"
+            installment="12x de R$ 51"
+            ctaLabel="QUERO ACESSO VITALÍCIO"
+          />
+          <PriceCard
+            checkout={checkout1ano}
+            plan="01 ano de acesso"
+            badge=""
+            isBest={false}
+            desc="Você viu tudo o que está incluso até aqui, um pacote avaliado em mais de <s>R$ 3.670</s>. Hoje, tudo isso pode ser seu, com <b>1 ano de acesso</b>, por apenas:"
+            price="R$ 397"
+            installment="12x de R$ 41"
+            ctaLabel="QUERO 01 ANO DE ACESSO"
+          />
+        </div>
+      )}
     </div>
   </section>
 
